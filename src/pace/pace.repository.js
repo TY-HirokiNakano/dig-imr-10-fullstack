@@ -5,6 +5,7 @@ function createPaceRepository(knex, table = "pace_record") {
    */
   const findById = async (id) => {
     const chk = await knex(table).where("id", id).first();
+    return chk;
   };
   return { findById };
 }

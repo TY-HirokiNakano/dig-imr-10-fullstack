@@ -3,7 +3,7 @@ const express = require("express");
 const { initPace } = require("./src/pace");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const knex = require("knex");
+const knex = require("./src/knex");
 
 const paceRepository = initPace(knex);
 console.log("paceRepository", paceRepository);
@@ -14,8 +14,11 @@ app.use("/api", async (req, res) => {
   res.send("Hello, World!");
 });
 
-app.get("/paces", async (req, res) => {
-  res.send("id=1のデータ", paceRepository.findById(1));
+app.get("/api/paces", async (req, res) => {
+  const paceRecord = await paceRepository.findById(1);
+  console.log("id=1のデータ", paceRecord);
+  // res.send("id=1のデータ", paceRecord);
+  res.json(paceRecord);
 });
 
 app.listen(PORT, async () => {
