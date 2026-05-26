@@ -10,13 +10,13 @@ console.log("paceRepository", paceRepository);
 
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.use("/api", async (req, res) => {
-  res.send("Hello, World!");
-});
+// app.use("/api", async (req, res) => {
+//   res.send("Hello, World!");
+// });
 
+// app.get("/api/paces", async (req, res) => {
 app.get("/api/paces", async (req, res) => {
   const paceRecord = await paceRepository.findById(1);
-  console.log("id=1のデータ", paceRecord);
   // res.send("id=1のデータ", paceRecord);
   res.json(paceRecord);
 });
