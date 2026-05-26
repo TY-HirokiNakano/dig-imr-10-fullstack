@@ -4,11 +4,10 @@
  */
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
-  await knex("pace_record").del();
-  await knex("pace_record").insert([
+  await knex("pace_master").del();
+  await knex("pace_master").insert([
     {
       race_type: "half_marathon",
-      // best: 100,
       target_lower: 50,
       target_upper: 100,
       e_pace_lower: 150,
@@ -16,7 +15,6 @@ exports.seed = async function (knex) {
     },
     {
       race_type: "half_marathon",
-      // best: 200,
       target_lower: 150,
       target_upper: 200,
       e_pace_lower: 250,
@@ -24,7 +22,6 @@ exports.seed = async function (knex) {
     },
     {
       race_type: "half_marathon",
-      // best: 300,
       target_lower: 200,
       target_upper: 250,
       e_pace_lower: 350,
