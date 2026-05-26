@@ -1,13 +1,22 @@
-export function TargetForm(
-  raceType,
-  setRaceType,
-  inputHours,
-  setInputHours,
-  inputMinutes,
-  setInputMinutes,
-  inputSeconds,
-  setInputSeconds,
-) {
+import { useState } from "react";
+
+export function TargetForm({ onSubmit }) {
+  const [raceType, setRaceType] = useState("half_marathon");
+  const [inputHours, setInputHours] = useState(0);
+  const [inputMinutes, setInputMinutes] = useState(0);
+  const [inputSeconds, setInputSeconds] = useState(0);
+
+  const handleClick = () => {
+    const totalSeconds =
+      Number(inputHours) * 3600 +
+      Number(inputMinutes) * 60 +
+      Number(inputSeconds);
+    onSubmit(raceType, totalSeconds);
+  };
+
+  const convertToSeconds = (h = 0, m = 0, s = 0) =>
+    Number(h * 3600 + m * 60 + s);
+
   return (
     <>
       <div>
@@ -15,7 +24,6 @@ export function TargetForm(
         <select
           value={raceType}
           onChange={(e) => {
-            console.log("raceType変更後", e.target.value);
             setRaceType(e.target.value);
           }}
         >
@@ -50,6 +58,7 @@ export function TargetForm(
         />
         <label>秒</label>
       </div>
+      <button onClick={handleClick}>ペース計算</button>
     </>
   );
 }
