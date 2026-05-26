@@ -1,19 +1,20 @@
 import "./App.css";
 import { useState } from "react";
+import { TargetForm } from "./components/TargetForm";
 
 function App() {
   const [isSubmit, setIsSubmit] = useState(false);
-  const [targetHours, setTargetHours] = useState(0);
-  const [targetMinutes, setTargetMinutes] = useState(0);
-  const [targetSecond, setTargetSecond] = useState(0);
+  const [inputHours, setInputHours] = useState(0);
+  const [inputMinutes, setInputMinutes] = useState(0);
+  const [inputSeconds, setInputSeconds] = useState(0);
   const [raceType, setRaceType] = useState("half_marathon");
   const [recommendedJogPace, setRecommendedJogPace] = useState("");
 
   const handleIsSubmit = async () => {
     const targetSeconds = convertToSeconds(
-      targetHours,
-      targetMinutes,
-      targetSecond,
+      inputHours,
+      inputMinutes,
+      inputSeconds,
     );
     const res = await fetch(
       `/api/paces?raceType=${raceType}&targetSeconds=${targetSeconds}`,
@@ -37,7 +38,17 @@ function App() {
     <>
       <div>
         <h1>ランニング練習アプリ</h1>
-        <div>
+        <TargetForm
+          raceType={raceType}
+          setRaceType={setRaceType}
+          inputHours={inputHours}
+          setInputHours={setInputHours}
+          inputMinutes={inputMinutes}
+          setInputMinutes={setInputMinutes}
+          inputSeconds={inputSeconds}
+          setInputSeconds={setInputSeconds}
+        />
+        {/* <div>
           <label>種目</label>
           <select
             value={raceType}
@@ -56,24 +67,24 @@ function App() {
             type="number"
             min="0"
             max="10"
-            onChange={(e) => setTargetHours(e.target.value)}
+            onChange={(e) => setInputHours(e.target.value)}
           />
           <label>時間</label>
           <input
             type="number"
             min="0"
             max="59"
-            onChange={(e) => setTargetMinutes(e.target.value)}
+            onChange={(e) => setInputMinutes(e.target.value)}
           />
           <label>分</label>
           <input
             type="number"
             min="0"
             max="59"
-            onChange={(e) => setTargetSecond(e.target.value)}
+            onChange={(e) => setInputSeconds(e.target.value)}
           />
           <label>秒</label>
-        </div>
+        </div> */}
         <button onClick={handleIsSubmit}>ペース計算</button>
         {isSubmit ? (
           <>
