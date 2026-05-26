@@ -7,8 +7,9 @@ const knex = require("./src/knex");
 
 const paceRepository = initPace(knex);
 
-app.use(express.static(path.join(__dirname, "/public")));
+// http通信で受け取るリクエストをjson形式に変換するための指示
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "/public")));
 
 // app.use("/api", async (req, res) => {
 //   res.send("Hello, World!");
@@ -22,12 +23,14 @@ app.get("/api/paces", async (req, res) => {
 });
 
 app.post("/api/paces", async (req, res) => {
+  // console.log("req.body:    ", req.body);
   const { raceType, targetSeconds } = req.body;
-  console.log("raceType:", raceType, "targetSeconds:", targetSeconds);
+  // console.log("raceType:", raceType, "targetSeconds:", targetSeconds);
   const pace = await paceRepository.findByRaceTypeAndTarget(
     raceType,
     targetSeconds,
   );
+  console.log("pace:   ", pace);
   res.json(pace);
 });
 
