@@ -8,7 +8,12 @@ function App() {
   const [targetHours, setTargetHours] = useState(0);
   const [targetMinites, setTargetMinites] = useState(0);
   const [targetSecond, setTargetSecond] = useState(0);
-  const [raceType, setRaceType] = useState("");
+  const [raceType, setRaceType] = useState("half_marathon");
+  const [recommendedJogPace, setRecommendedJogPace] = useState("");
+  const [recommendedMinitesL, setRecommendedMinitesL] = useState("");
+  const [recommendedSecondsL, setRecommendedSecondsL] = useState("");
+  const [recommendedMinitesU, setRecommendedMinitesU] = useState("");
+  const [recommendedSecondsU, setRecommendedSecondsU] = useState("");
 
   useEffect(() => {
     // fetch("/api")
@@ -41,11 +46,23 @@ function App() {
       },
     });
     const data1 = await res1.json();
+    const { e_pace_lower, e_pace_upper } = data1;
+    // console.log("e_pace_lower", e_pace_lower);
+    // const rec
+    await setRecommendedJogPace({ e_pace_lower, e_pace_upper });
+
+    console.log("recommendedJogPace", await recommendedJogPace);
     console.log("data1", data1);
   };
 
   const convertToSeconds = (h = 0, m = 0, s = 0) =>
     Number(h * 3600 + m * 60 + s);
+
+  const convertToMinitesAndSeconds = (s = 0) => {
+    const recommendedMinites = Math.ceil(s / 60);
+    const recommendedSeconds = s % 60;
+    return { minites, seconds };
+  };
   return (
     <>
       <div className="App">Message from the backend: {message}</div>
@@ -58,7 +75,7 @@ function App() {
           <select
             value={raceType}
             onChange={(e) => {
-              console.log(e.target.value);
+              console.log("raceType変更後", e.target.value);
               setRaceType(e.target.value);
             }}
           >
@@ -99,7 +116,24 @@ function App() {
           <>
             <p>ジョギングでの推奨ペース</p>
             <label>1kmあたり</label>
-            <span>{jogPace}</span>
+            {/* <span>
+              {
+                convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
+                  "minites"
+                ]
+              }
+            </span> */}
+            <label>分</label>
+            {/* <span>
+              {
+                convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
+                  "seconds"
+                ]
+              }
+            </span> */}
+            <label>秒</label>
+            <span>~</span>
+            <span>{recommendedJogPace.e_pace_lower}</span>
           </>
         ) : (
           <></>
