@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("pace_record", (table) => {
+  return knex.schema.createTable("pace_master", (table) => {
     table.increments("id").primary();
     table.string("race_type", 64).notNullable();
     table.integer("target_lower").notNullable();
@@ -18,5 +18,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("pace_record");
+  return knex.schema.dropTable("pace_master");
 };
