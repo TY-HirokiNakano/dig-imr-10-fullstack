@@ -7,7 +7,16 @@ function createPaceRepository(knex, table = "pace_record") {
     const chk = await knex(table).where("id", id).first();
     return chk;
   };
-  return { findById };
+
+  const findByRaceTypeAndTarget = async (raceType, targetSeconds) => {
+    const result = await knex(table)
+      .where("race_type", raceType)
+      .andWhere("target_lower", "<", targetSeconds)
+      .andWhere("target_upper", ">", targetSeconds);
+    console.log(result);
+    return result;
+  };
+  return { findById, findByRaceTypeAndTarget };
 }
 
 module.exports = { createPaceRepository };

@@ -11,7 +11,7 @@ exports.seed = async function (knex) {
       target_lower: 4500,
       target_upper: 5400,
       e_pace_lower: 294,
-      e_pace_upper: 388,
+      e_pace_upper: 329,
     },
     {
       race_type: "half_marathon",
