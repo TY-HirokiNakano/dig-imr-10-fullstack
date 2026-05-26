@@ -16,19 +16,19 @@ app.use(express.static(path.join(__dirname, "/public")));
 // });
 
 // app.get("/api/paces", async (req, res) => {
-app.get("/api/paces", async (req, res) => {
-  const paceRecord = await paceRepository.findById(1);
-  // res.send("id=1のデータ", paceRecord);
-  res.json(paceRecord);
-});
+// app.get("/api/paces", async (req, res) => {
+//   const paceRecord = await paceRepository.findById(1);
+//   // res.send("id=1のデータ", paceRecord);
+//   res.json(paceRecord);
+// });
 
-app.post("/api/paces", async (req, res) => {
+app.get("/api/paces", async (req, res) => {
   // console.log("req.body:    ", req.body);
-  const { raceType, targetSeconds } = req.body;
+  const { raceType, targetSeconds } = req.query;
   // console.log("raceType:", raceType, "targetSeconds:", targetSeconds);
   const pace = await paceRepository.findByRaceTypeAndTarget(
     raceType,
-    targetSeconds,
+    Number(targetSeconds),
   );
   console.log("pace:   ", pace);
   res.json(pace);

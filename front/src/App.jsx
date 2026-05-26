@@ -15,19 +15,19 @@ function App() {
   const [recommendedMinitesU, setRecommendedMinitesU] = useState("");
   const [recommendedSecondsU, setRecommendedSecondsU] = useState("");
 
-  useEffect(() => {
-    // fetch("/api")
-    fetch("/api/paces")
-      // .then((res) => res.text())
-      .then((res) => res.json())
-      .then((data) => setMessage(JSON.stringify(data)));
-    // .then((data) => setMessage(data));
-  }, []);
+  // useEffect(() => {
+  //   // fetch("/api")
+  //   fetch("/api/paces")
+  //     // .then((res) => res.text())
+  //     .then((res) => res.json())
+  //     .then((data) => setMessage(JSON.stringify(data)));
+  //   // .then((data) => setMessage(data));
+  // }, []);
 
   const handleIsSubmit = async () => {
-    const res = await fetch("/api/paces");
-    const data = await res.json();
-    setjogPace(data.e_pace_lower);
+    // const res = await fetch("/api/paces");
+    // const data = await res.json();
+    // setjogPace(data.e_pace_lower);
     // console.log("targetHours", targetHours);
     setIsSubmit(true);
     const targetSeconds = convertToSeconds(
@@ -35,16 +35,9 @@ function App() {
       targetMinites,
       targetSecond,
     );
-    const res1 = await fetch("/api/paces", {
-      method: "POST",
-      body: JSON.stringify({
-        raceType: raceType,
-        targetSeconds: targetSeconds,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res1 = await fetch(
+      `/api/paces?raceType=${raceType}&targetSeconds=${targetSeconds}`,
+    );
     const data1 = await res1.json();
     const { e_pace_lower, e_pace_upper } = data1;
     // console.log("e_pace_lower", e_pace_lower);
@@ -59,8 +52,8 @@ function App() {
     Number(h * 3600 + m * 60 + s);
 
   const convertToMinitesAndSeconds = (s = 0) => {
-    const recommendedMinites = Math.ceil(s / 60);
-    const recommendedSeconds = s % 60;
+    const minites = Math.floor(s / 60);
+    const seconds = s % 60;
     return { minites, seconds };
   };
   return (
@@ -115,25 +108,41 @@ function App() {
         {isSubmit ? (
           <>
             <p>ジョギングでの推奨ペース</p>
-            <label>1kmあたり</label>
-            {/* <span>
+            <label>1kmあたり：</label>
+            <span>
               {
                 convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
                   "minites"
                 ]
               }
-            </span> */}
-            <label>分</label>
-            {/* <span>
+              分
+            </span>
+            <span>
               {
                 convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
                   "seconds"
                 ]
               }
-            </span> */}
-            <label>秒</label>
+              秒
+            </span>
             <span>~</span>
-            <span>{recommendedJogPace.e_pace_lower}</span>
+            <span>
+              {
+                convertToMinitesAndSeconds(recommendedJogPace.e_pace_lower)[
+                  "minites"
+                ]
+              }
+              分
+            </span>
+            <span>
+              {
+                convertToMinitesAndSeconds(recommendedJogPace.e_pace_lower)[
+                  "seconds"
+                ]
+              }
+              秒
+            </span>
+            {/* <span>{recommendedJogPace.e_pace_lower}</span> */}
           </>
         ) : (
           <></>
