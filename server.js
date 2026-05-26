@@ -30,6 +30,9 @@ app.get("/api/paces", async (req, res) => {
     raceType,
     Number(targetSeconds),
   );
+  if (!pace) {
+    res.status(404).json({ message: "該当するペースが見つかりません" });
+  }
   console.log("pace:   ", pace);
   res.json(pace);
 });

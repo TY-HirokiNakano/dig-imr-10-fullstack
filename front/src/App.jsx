@@ -1,68 +1,42 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState();
   const [isSubmit, setIsSubmit] = useState(false);
-  const [jogPace, setjogPace] = useState("");
   const [targetHours, setTargetHours] = useState(0);
-  const [targetMinites, setTargetMinites] = useState(0);
+  const [targetMinutes, setTargetMinutes] = useState(0);
   const [targetSecond, setTargetSecond] = useState(0);
   const [raceType, setRaceType] = useState("half_marathon");
   const [recommendedJogPace, setRecommendedJogPace] = useState("");
-  const [recommendedMinitesL, setRecommendedMinitesL] = useState("");
-  const [recommendedSecondsL, setRecommendedSecondsL] = useState("");
-  const [recommendedMinitesU, setRecommendedMinitesU] = useState("");
-  const [recommendedSecondsU, setRecommendedSecondsU] = useState("");
-
-  // useEffect(() => {
-  //   // fetch("/api")
-  //   fetch("/api/paces")
-  //     // .then((res) => res.text())
-  //     .then((res) => res.json())
-  //     .then((data) => setMessage(JSON.stringify(data)));
-  //   // .then((data) => setMessage(data));
-  // }, []);
 
   const handleIsSubmit = async () => {
-    // const res = await fetch("/api/paces");
-    // const data = await res.json();
-    // setjogPace(data.e_pace_lower);
-    // console.log("targetHours", targetHours);
-    setIsSubmit(true);
     const targetSeconds = convertToSeconds(
       targetHours,
-      targetMinites,
+      targetMinutes,
       targetSecond,
     );
-    const res1 = await fetch(
+    const res = await fetch(
       `/api/paces?raceType=${raceType}&targetSeconds=${targetSeconds}`,
     );
-    const data1 = await res1.json();
+    const data1 = await res.json();
     const { e_pace_lower, e_pace_upper } = data1;
-    // console.log("e_pace_lower", e_pace_lower);
-    // const rec
-    await setRecommendedJogPace({ e_pace_lower, e_pace_upper });
+    setRecommendedJogPace({ e_pace_lower, e_pace_upper });
 
-    console.log("recommendedJogPace", await recommendedJogPace);
-    console.log("data1", data1);
+    setIsSubmit(true);
   };
 
   const convertToSeconds = (h = 0, m = 0, s = 0) =>
     Number(h * 3600 + m * 60 + s);
 
-  const convertToMinitesAndSeconds = (s = 0) => {
-    const minites = Math.floor(s / 60);
+  const convertToMinutesAndSeconds = (s = 0) => {
+    const minutes = Math.floor(s / 60);
     const seconds = s % 60;
-    return { minites, seconds };
+    return { minutes, seconds };
   };
   return (
     <>
-      <div className="App">Message from the backend: {message}</div>
       <div>
         <h1>ランニング練習アプリ</h1>
-        {/* <button>ログイン</button> */}
-        {/* <button>ゲストとして開始</button> */}
         <div>
           <label>種目</label>
           <select
@@ -76,10 +50,6 @@ function App() {
             <option value="full_marathon">フル</option>
           </select>
         </div>
-        {/* <div>
-          <label>自己ベスト</label>
-          <input />
-        </div> */}
         <div>
           <label>目標タイム</label>
           <input
@@ -93,7 +63,7 @@ function App() {
             type="number"
             min="0"
             max="59"
-            onChange={(e) => setTargetMinites(e.target.value)}
+            onChange={(e) => setTargetMinutes(e.target.value)}
           />
           <label>分</label>
           <input
@@ -111,15 +81,15 @@ function App() {
             <label>1kmあたり：</label>
             <span>
               {
-                convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
-                  "minites"
+                convertToMinutesAndSeconds(recommendedJogPace.e_pace_upper)[
+                  "minutes"
                 ]
               }
               分
             </span>
             <span>
               {
-                convertToMinitesAndSeconds(recommendedJogPace.e_pace_upper)[
+                convertToMinutesAndSeconds(recommendedJogPace.e_pace_upper)[
                   "seconds"
                 ]
               }
@@ -128,21 +98,20 @@ function App() {
             <span>~</span>
             <span>
               {
-                convertToMinitesAndSeconds(recommendedJogPace.e_pace_lower)[
-                  "minites"
+                convertToMinutesAndSeconds(recommendedJogPace.e_pace_lower)[
+                  "minutes"
                 ]
               }
               分
             </span>
             <span>
               {
-                convertToMinitesAndSeconds(recommendedJogPace.e_pace_lower)[
+                convertToMinutesAndSeconds(recommendedJogPace.e_pace_lower)[
                   "seconds"
                 ]
               }
               秒
             </span>
-            {/* <span>{recommendedJogPace.e_pace_lower}</span> */}
           </>
         ) : (
           <></>
