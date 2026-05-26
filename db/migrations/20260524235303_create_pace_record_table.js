@@ -6,8 +6,8 @@ exports.up = function (knex) {
   return knex.schema.createTable("pace_record", (table) => {
     table.increments("id").primary();
     table.string("race_type", 64).notNullable();
-    table.integer("best").notNullable();
-    table.integer("target").notNullable();
+    table.integer("target_lower").notNullable();
+    table.integer("target_upper").notNullable();
     table.integer("e_pace_lower").notNullable();
     table.integer("e_pace_upper").notNullable();
   });
