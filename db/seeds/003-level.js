@@ -8,7 +8,7 @@ exports.seed = async function (knex) {
   await knex("level").insert([
     {
       race_type: "half_marathon",
-      label: "サブ1",
+      label: "サブ60",
       sub_label: "エリート（トヨタ自動車 太田智樹選手）レベル",
       max_seconds: 3600,
       width_percent: 40,

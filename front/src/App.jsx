@@ -2,6 +2,8 @@ import "./App.css";
 import { useState } from "react";
 import { TargetForm } from "./components/TargetForm";
 import { useEffect } from "react";
+import { JogPace } from "./components/JogPace";
+import { LevelDisplay } from "./components/LevelDisplay";
 
 function App() {
   const [isSubmit, setIsSubmit] = useState(false);
@@ -28,91 +30,18 @@ function App() {
     setIsSubmit(true);
   };
 
-  const convertToMinutesAndSeconds = (s = 0) => {
-    const minutes = Math.floor(s / 60);
-    const seconds = s % 60;
-    return { minutes, seconds };
-  };
   return (
     <>
       <div>
         <h1>ランニング練習アプリ</h1>
         <TargetForm onSubmit={handleIsSubmit} />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {levels.map((level, index) => (
-            <div
-              style={{
-                width: `${level.width_percent}%`,
-                backgroundColor:
-                  submittedSeconds !== null &&
-                  submittedSeconds <= level.max_seconds &&
-                  (index === 0 ||
-                    submittedSeconds > levels[index - 1].max_seconds)
-                    ? // ? "#7fbfff"
-                      level.applicable_color
-                    : level.not_applicable_color,
-                textAlign: "center",
-                color:
-                  submittedSeconds !== null &&
-                  submittedSeconds <= level.max_seconds &&
-                  (index === 0 ||
-                    submittedSeconds > levels[index - 1].max_seconds) &&
-                  // ? "#7fbfff"
-                  "white",
-              }}
-            >
-              <div>{level.label}</div>
-              <div>{level.sub_label}</div>
-            </div>
-          ))}
-        </div>
-        <div></div>
-        {isSubmit ? (
-          <>
-            <p>ジョギングでの推奨ペース</p>
-            <label>1kmあたり：</label>
-            <span>
-              {
-                convertToMinutesAndSeconds(recommendedJogPace.e_pace_upper)[
-                  "minutes"
-                ]
-              }
-              分
-            </span>
-            <span>
-              {
-                convertToMinutesAndSeconds(recommendedJogPace.e_pace_upper)[
-                  "seconds"
-                ]
-              }
-              秒
-            </span>
-            <span>~</span>
-            <span>
-              {
-                convertToMinutesAndSeconds(recommendedJogPace.e_pace_lower)[
-                  "minutes"
-                ]
-              }
-              分
-            </span>
-            <span>
-              {
-                convertToMinutesAndSeconds(recommendedJogPace.e_pace_lower)[
-                  "seconds"
-                ]
-              }
-              秒
-            </span>
-          </>
-        ) : (
-          <></>
+        <LevelDisplay levels={levels} submittedSeconds={submittedSeconds} />
+
+        {isSubmit && (
+          <JogPace
+            ePaceLower={recommendedJogPace.e_pace_lower}
+            ePaceUpper={recommendedJogPace.e_pace_upper}
+          />
         )}
       </div>
     </>
