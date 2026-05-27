@@ -45,17 +45,22 @@ function App() {
             alignItems: "center",
           }}
         >
-          {levels.map((level) => (
+          {levels.map((level, index) => (
             <div
               style={{
                 width: `${level.width_percent}%`,
-                backgroundColor: "#a8d3ff",
+                backgroundColor:
+                  submittedSeconds !== null &&
+                  submittedSeconds <= level.max_seconds &&
+                  (index === 0 ||
+                    submittedSeconds > levels[index - 1].max_seconds)
+                    ? "#7fbfff"
+                    : "#a8d3ff",
                 textAlign: "center",
               }}
             >
               <div>{level.label}</div>
               <div>{level.sub_label}</div>
-              test
             </div>
           ))}
         </div>
