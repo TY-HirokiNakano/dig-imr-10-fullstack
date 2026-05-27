@@ -11,7 +11,7 @@ function createPaceRepository(knex, table = "pace_record") {
   const findByRaceTypeAndTarget = async (raceType, targetSeconds) => {
     const result = await knex(table)
       .where("race_type", raceType)
-      .andWhere("target_lower", "<", targetSeconds)
+      .andWhere("target_lower", "<=", targetSeconds)
       .andWhere("target_upper", ">", targetSeconds)
       .first();
     console.log(result);
