@@ -11,6 +11,7 @@ function App() {
   const [levels, setLevels] = useState([]);
   const [submittedSeconds, setSubmittedSeconds] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [edittedLevelIds, setEdittedLevelIds] = useState([]);
 
   useEffect(() => {
     fetch("/api/levels?raceType=half_marathon")
@@ -30,6 +31,7 @@ function App() {
 
     setIsSubmit(true);
   };
+  const handleSave = async () => {};
 
   return (
     <>
@@ -60,7 +62,7 @@ function App() {
                 <input type="number" defaultValue={level.max_seconds} />
               </div>
             ))}
-            <button onClick={() => {}}>保存</button>
+            <button onClick={handleSave}>保存</button>
           </div>
         )}
       </div>
