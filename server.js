@@ -35,7 +35,7 @@ app.get("/api/levels", async (req, res) => {
 });
 
 // 検索や絞り込みの場合はクエリパラメータ、操作の場合はパスパラメータが一般的らしい
-app.put("/api/levels:id", async (req, res) => {
+app.put("/api/levels/:id", async (req, res) => {
   const { id } = req.params;
   await levelRepository.update(id, req.body);
   res.status(204).send();
