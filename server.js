@@ -1,11 +1,13 @@
 const path = require("path");
 const express = require("express");
 const { initPace } = require("./src/pace");
+const { initLevel } = require("./src/level");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const knex = require("./src/knex");
 
 const paceRepository = initPace(knex);
+const levelRepository = initLevel(knex);
 
 // http通信で受け取るリクエストをjson形式に変換するための指示
 app.use(express.json());
@@ -35,6 +37,12 @@ app.get("/api/paces", async (req, res) => {
   }
   console.log("pace:   ", pace);
   res.json(pace);
+});
+
+app.get("/api/levels", async (req, res) => {
+  const { raceType } = req.query;
+  const levels = await levelRepository.findByRaceType(raceType);
+  res.json(levels);
 });
 
 app.listen(PORT, async () => {
