@@ -31,12 +31,34 @@ function App() {
 
     setIsSubmit(true);
   };
-  const handleSave = async () => {};
+  const handleSave = async () => {
+    console.log("edittedLevelIds", edittedLevelIds);
+    edittedLevelIds.forEach(async (id) => {
+      const level = levels.find((payload) => payload.id === id);
+      await fetch(`/api/levels/${id}`, {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(level),
+      });
+    });
+    setEdittedLevelIds([]);
+  };
+
+  const handleChangeLevel = async (id, column, value) => {
+    const newLevels = levels.map((level) => {
+      if (level.id === id) {
+        return { ...level, [column]: value };
+      }
+      return level;
+    });
+    setLevels(newLevels);
+    setEdittedLevelIds([...edittedLevelIds, id]);
+  };
 
   return (
     <>
       <div>
-        <h1>ランニング練習アプリ</h1>
+        <h1>マラソン練習アプリ</h1>
         <TargetForm onSubmit={handleIsSubmit} />
 
         {isSubmit && (
@@ -57,9 +79,25 @@ function App() {
           <div>
             {levels.map((level) => (
               <div key={level.id}>
-                <input defaultValue={level.label} />
-                <input defaultValue={level.sub_label} />
-                <input type="number" defaultValue={level.max_seconds} />
+                <input
+                  defaultValue={level.label}
+                  onChange={(e) =>
+                    handleChangeLevel(level.id, "label", e.target.value)
+                  }
+                />
+                <input
+                  defaultValue={level.sub_label}
+                  onChange={(e) =>
+                    handleChangeLevel(level.id, "sub_label", e.target.value)
+                  }
+                />
+                <input
+                  type="number"
+                  defaultValue={level.max_seconds}
+                  onChange={(e) =>
+                    handleChangeLevel(level.id, "max_seconds", e.target.value)
+                  }
+                />
               </div>
             ))}
             <button onClick={handleSave}>保存</button>

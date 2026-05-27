@@ -42,20 +42,25 @@ export function LevelDisplay({ levels, submittedSeconds }) {
               submittedSeconds <= level.max_seconds &&
               (index === 0 ||
                 submittedSeconds > levels[index - 1].max_seconds) &&
-              "solid",
+              `${getDarkColor(level.applicable_color, 0.4)} solid`,
             color:
-              !(
-                submittedSeconds !== null &&
-                submittedSeconds <= level.max_seconds &&
-                (index === 0 ||
-                  submittedSeconds > levels[index - 1].max_seconds)
-              ) && "white",
+              submittedSeconds !== null &&
+              submittedSeconds <= level.max_seconds &&
+              (index === 0 ||
+                submittedSeconds > levels[index - 1].max_seconds) &&
+              "white",
             fontWeight:
               submittedSeconds !== null &&
               submittedSeconds <= level.max_seconds &&
               (index === 0 ||
                 submittedSeconds > levels[index - 1].max_seconds) &&
               "bold",
+            textShadow:
+              submittedSeconds !== null &&
+              submittedSeconds <= level.max_seconds &&
+              (index === 0 ||
+                submittedSeconds > levels[index - 1].max_seconds) &&
+              "#000000 1px 1px",
           }}
         >
           <div>{level.label}</div>
