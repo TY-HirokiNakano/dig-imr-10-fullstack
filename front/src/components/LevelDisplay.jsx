@@ -9,6 +9,8 @@ export function LevelDisplay({ levels, submittedSeconds }) {
     >
       {levels.map((level, index) => (
         <div
+          // mapで要素を返す場合は、ユニークなkey属性をつける必要がある。要素の区別のため
+          key={level.id}
           style={{
             width: `${level.width_percent}%`,
             backgroundColor:
@@ -19,11 +21,12 @@ export function LevelDisplay({ levels, submittedSeconds }) {
                 : level.not_applicable_color,
             textAlign: "center",
             color:
-              submittedSeconds !== null &&
-              submittedSeconds <= level.max_seconds &&
-              (index === 0 ||
-                submittedSeconds > levels[index - 1].max_seconds) &&
-              "white",
+              !(
+                submittedSeconds !== null &&
+                submittedSeconds <= level.max_seconds &&
+                (index === 0 ||
+                  submittedSeconds > levels[index - 1].max_seconds)
+              ) && "white",
           }}
         >
           <div>{level.label}</div>

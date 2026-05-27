@@ -10,6 +10,7 @@ function App() {
   const [recommendedJogPace, setRecommendedJogPace] = useState("");
   const [levels, setLevels] = useState([]);
   const [submittedSeconds, setSubmittedSeconds] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     fetch("/api/levels?raceType=half_marathon")
@@ -35,13 +36,32 @@ function App() {
       <div>
         <h1>ランニング練習アプリ</h1>
         <TargetForm onSubmit={handleIsSubmit} />
-        <LevelDisplay levels={levels} submittedSeconds={submittedSeconds} />
 
         {isSubmit && (
           <JogPace
             ePaceLower={recommendedJogPace.e_pace_lower}
             ePaceUpper={recommendedJogPace.e_pace_upper}
           />
+        )}
+        <LevelDisplay levels={levels} submittedSeconds={submittedSeconds} />
+        <button
+          onClick={() => {
+            setIsEdit(!isEdit);
+          }}
+        >
+          {isEdit ? "閉じる" : "レベルを設定"}
+        </button>
+        {isEdit && (
+          <div>
+            {levels.map((level) => (
+              <div key={level.id}>
+                <input defaultValue={level.label} />
+                <input defaultValue={level.sub_label} />
+                <input type="number" defaultValue={level.max_seconds} />
+              </div>
+            ))}
+            <button onClick={() => {}}>保存</button>
+          </div>
         )}
       </div>
     </>

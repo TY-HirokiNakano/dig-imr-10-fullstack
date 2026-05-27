@@ -6,7 +6,14 @@ function createLevelRepository(knex, table = "level") {
     console.log(result);
     return result;
   };
-  return { findByRaceType };
+
+  const update = async (id, payload) => {
+    const [result] = await knex(table).where("id", id).update(payload, "*");
+    console.log(result);
+    return result;
+  };
+
+  return { findByRaceType, update };
 }
 
 module.exports = { createLevelRepository };
