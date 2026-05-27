@@ -54,9 +54,17 @@ function App() {
                   submittedSeconds <= level.max_seconds &&
                   (index === 0 ||
                     submittedSeconds > levels[index - 1].max_seconds)
-                    ? "#7fbfff"
-                    : "#a8d3ff",
+                    ? // ? "#7fbfff"
+                      level.applicable_color
+                    : level.not_applicable_color,
                 textAlign: "center",
+                color:
+                  submittedSeconds !== null &&
+                  submittedSeconds <= level.max_seconds &&
+                  (index === 0 ||
+                    submittedSeconds > levels[index - 1].max_seconds) &&
+                  // ? "#7fbfff"
+                  "white",
               }}
             >
               <div>{level.label}</div>

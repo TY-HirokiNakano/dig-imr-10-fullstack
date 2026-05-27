@@ -11,6 +11,8 @@ exports.up = function (knex) {
     table.string("sub_label", 64).notNullable();
     table.integer("max_seconds").notNullable();
     table.integer("width_percent").notNullable();
+    table.string("applicable_color", 64).notNullable();
+    table.string("not_applicable_color", 64).notNullable();
   });
 };
 
