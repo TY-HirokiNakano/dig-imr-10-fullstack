@@ -8,6 +8,20 @@ exports.seed = async function (knex) {
   await knex("pace_record").insert([
     {
       race_type: "half_marathon",
+      target_lower: 0,
+      target_upper: 3600,
+      e_pace_lower: 196,
+      e_pace_upper: 219,
+    },
+    {
+      race_type: "half_marathon",
+      target_lower: 3600,
+      target_upper: 4500,
+      e_pace_lower: 249,
+      e_pace_upper: 269,
+    },
+    {
+      race_type: "half_marathon",
       target_lower: 4500,
       target_upper: 5400,
       e_pace_lower: 294,
@@ -30,7 +44,7 @@ exports.seed = async function (knex) {
     {
       race_type: "half_marathon",
       target_lower: 7200,
-      target_upper: 8100,
+      target_upper: 9999999,
       e_pace_lower: 453,
       e_pace_upper: 507,
     },
